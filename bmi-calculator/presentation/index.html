@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BMI Calculator App</title>
+  <meta charset="utf-8">
+  <meta name="description" content="BMI Calculator App">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>BMI Calculator App</h1>
+    <h2></h2>
+    <p><br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Overweight, Obesity and BMI</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Body mass index (BMI) is a measure based on height and weight that applies to adult men and women, and it&#39;s useful indicator for weight status: </p>
+
+<table>
+<tr><td>Status</td><td width="25%">BMI</td><td width="50%">&nbsp;</td></tr>
+<tr><td>Underweight</td><td>Below 18.5</td><td width="50%">&nbsp;</td></tr>
+<tr><td>Normal</td><td>18.5-24.9</td><td width="50%">&nbsp;</td></tr>
+<tr><td>Overweight</td><td>25.0-29.9</td><td width="50%">&nbsp;</td></tr>
+<tr><td>Obesity</td><td>30.0 and Above</td><td width="50%">&nbsp;</td></tr>
+</table>         
+
+<p>There are many potential health risks associated with being overweight or obese. In particular, obesity is common, serious and costly:</p>
+
+<ul>
+<li>More than one-third (34.9% or 78.6 million) of U.S. adults are obese. </li>
+<li>Obesity-related conditions include heart disease, stroke, type 2 diabetes and certain types of cancer, some of the leading causes of preventable death. </li>
+<li>The estimated annual medical cost of obesity in the U.S. was 147 billion USD in 2008; the medical costs for people who are obese were 1,429 USD higher than those of normal weight.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The BMI Calculator</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The BMI Calculator takes the following inputs:</p>
+
+<ul>
+<li>weight (in pounds)</li>
+<li>height in feet and/or inches</li>
+</ul>
+
+<p>and outputs the following:</p>
+
+<ul>
+<li>BMI based on the weight and height. The formula is \({(weight * 703) / (height^2)}\), where height is converted into inches first.</li>
+<li>Weight status: underweight, normal, overweight, or obese.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>If a user enters the following:</p>
+
+<ul>
+<li>weight: 150 lbs.</li>
+<li>height: 5 feet and 8 inches</li>
+</ul>
+
+<p>The BMI will be:</p>
+
+<pre><code>## [1] 22.8
+</code></pre>
+
+<p>and the weight status will be:</p>
+
+<pre><code>## [1] &quot;normal weight&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>References</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>The obsecity prevalence data used in the application is from <a href="http://www.cdc.gov/obesity/data/table-adults.html">CDC web site</a>.</p></li>
+<li><p>The formula for BMI calculation is for adults only. For children under 19 years old, a different formula should be used and can also be found at CDC web site.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Overweight, Obesity and BMI'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The BMI Calculator'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Example'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='References'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

@@ -1,0 +1,121 @@
+---
+title: "Prediction of Exercise Quality"
+output: html_document
+---
+### Synopsis
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, we will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways, and we'll predict the manner in which they did the exercise, based on the "classe" variable In the training set.
+
+### Loading data and exploratory analysis
+First we load the data from the file pml-training.csv, and take a look at the summary information.
+
+```{r echo=FALSE, results='hide', warning=FALSE,message=FALSE}
+library(caret)
+library(randomForest)
+```
+
+```{r cache=TRUE, results='hide'}
+data <- read.table("pml-training.csv", 
+                     sep=",", 
+                     strip.white=TRUE, 
+                     header=TRUE, 
+                     stringsAsFactors=FALSE)
+summary(data)
+```
+
+```{r}
+sum(is.na(data))/(dim(data)[1]*dim(data)[2])
+```
+As we can see from above, 41% of the data has missing values.
+
+The class variable is pretty much evenly distributed:
+```{r}
+table(data$classe)
+```
+
+### Basic preprocessing
+Upon examing the data, we found that:
+
+* The 2nd to 6th columns are related to user name, timestamp, etc, which should not affect the prediction, so we remove these columns. 
+
+* Some columns have the values of "#DIV/0!" which are clearly inconsistent with other values that are all numerics, so we'll replace these values by empty string. 
+
+We then partition the data into training and testing data sets.
+
+```{r}
+data <- data[,-(2:6)]
+classes <- data$classe
+
+# replace #DIV/0! by space
+data <- as.data.frame(lapply(data[, -155],
+                function(x) if (is.character(x)|is.factor(x)) as.numeric(gsub("#DIV/0!","",x)) else x),
+                        stringsAsFactors=FALSE)
+data$classe <- classes
+
+set.seed(88888)
+inTrain <- createDataPartition(y=data$classe, p=0.75, list=FALSE)
+training <- data[inTrain,]
+testing <- data[-inTrain,]
+```
+
+### Removing zero vars and near zero vars
+Using nearZeroVar we can identify the zero vars and near zero vars. We'll remove all zero vars and any near zero vars with freqRatio greater than 77 from the data frame.
+```{r cache=TRUE}
+nzv <- nearZeroVar(training, saveMetrics= TRUE)
+training <- training[,-which((nzv$freqRatio>=77 & nzv$nzv==TRUE) | nzv$zeroVar==TRUE)]
+```
+
+### Identifying and removing highly correlated predictors
+We also remove variables that have correlation greater than 0.9:
+```{r result='hide'}
+corr <- cor(training[, !(names(training) %in% c("classe"))], use="pairwise.complete.obs")
+highlyCorr <- findCorrelation(corr, cutoff = .75)
+filtered <- training[,-highlyCorr]
+```
+
+### Imputing missing data
+Next we impute the missing data with knnImpute method:
+```{r, result='hide'}
+preObj <- preProcess(filtered[,!(names(filtered) %in% c("classe"))], method="knnImpute")
+train1 <- predict(preObj, filtered[, !(names(filtered) %in% c("classe"))])
+```
+
+### Pre-processing with Principal Component Analysis
+Next we are going to pre-process the training data with PCA. But first, we need find the number of principal components in order to capture 80% of the variance.
+```{r}
+preProc <- preProcess(train1, method = "pca", thresh = 0.8)
+dim(preProc$rotation)
+preProc <- preProcess(train1, method="pca", pcaComp=dim(preProc$rotation)[2])
+train2 <- predict(preProc, train1)
+train2$classe <- as.factor(filtered$classe)
+```
+
+### Building a prediction model with random forest algorithm
+We're going to use random forest to predict the classe variable on the training data:
+```{r cache=TRUE}
+modFit <- randomForest(classe~., data=train2, importance=TRUE)
+```
+
+```{r}
+modFit
+```
+The estimated OOB rate is around 5%. Note that in random forests, there is no need for cross-validation or a separate test set to get an unbiased estimate of the test set error. It is estimated internally during the run.
+
+### Predicting on testing data
+Next we run the same algorithm to predict classe on the testing data. Note that the testing data needs to  be pre-processed in the same manner as the training data.
+```{r results='hide'}
+testing <- testing[,-which(nzv$zeroVar==TRUE)]
+testingFiltered <- testing[,-highlyCorr]
+testing1 <- predict(preObj, testingFiltered[, !(names(filtered) %in% c("classe"))])
+testing2 <- predict(preProc, testing1)
+testing2$classe <- as.factor(testingFiltered$classe)
+
+pred <- predict(modFit, testing2)
+```
+
+### Conclusion
+Let's take a look at the confusion matrix to validate the prediction accuracy on testing data:
+```{r}
+cf <- confusionMatrix(testing2$classe, pred)
+cf
+```
+The accuracy of the predicton on the testing data is `r round(cf$overall['Accuracy'], 4)`, which is consistent with the estimated OOB rate from the model. This means our prediction model is reasonably accurate. 
